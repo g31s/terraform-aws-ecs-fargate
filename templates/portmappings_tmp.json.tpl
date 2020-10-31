@@ -1,0 +1,4 @@
+,{
+    "containerPort": ${port},
+    "hostPort": ${port}
+}

@@ -1,0 +1,79 @@
+/* 
+Module: ECS-Fargate-Appmesh
+Version: 0.0.1
+
+This file will create:
+  - auto scalling target
+  - auto scalling policy to add new containers
+  - auto scalling policy to remove containers
+*/
+
+// auto scale target set for fargate service 
+resource "aws_appautoscaling_target" "target" {
+  // serice_namespce
+  service_namespace  = "ecs"
+  // resource id for fargate service
+  resource_id        = "service/${aws_ecs_cluster.main.name}/${aws_ecs_service.main.name}"
+  // scale dimension for service. set minimum to 1 and max to 10
+  scalable_dimension = "ecs:service:DesiredCount"
+  // minimum running services 
+  min_capacity       = 1
+  // maximun running services 
+  max_capacity       = 10
+}
+
+// when to scale up task in fargate service
+resource "aws_appautoscaling_policy" "up" {
+  // name for policy
+  name               = "${var.prefix}-${var.env}-${var.app_name}-scale-up"
+  // set service namespace
+  service_namespace  = "ecs"
+  // set resource id from fargate service
+  resource_id        = "service/${aws_ecs_cluster.main.name}/${aws_ecs_service.main.name}"
+  // scale dimensions
+  scalable_dimension = "ecs:service:DesiredCount"
+
+  // scale up by 1 when cpu usage is above 80%
+  step_scaling_policy_configuration {
+    // change in capacity when reach 80% cpu usage
+    adjustment_type         = "ChangeInCapacity"
+    cooldown                = 80
+    metric_aggregation_type = "Maximum"
+
+    // add 1 more task when reach 80%
+    step_adjustment {
+      metric_interval_lower_bound = 0
+      scaling_adjustment          = 1
+    }
+  }
+  // create this resource when target is created
+  depends_on = [aws_appautoscaling_target.target]
+}
+
+// when to scale down task in fargate service
+resource "aws_appautoscaling_policy" "down" {
+  // name for policy
+  name               = "${var.prefix}-${var.env}-${var.app_name}-scale-down"
+  // set service namespace
+  service_namespace  = "ecs"
+  // et resource id from fargate service
+  resource_id        = "service/${aws_ecs_cluster.main.name}/${aws_ecs_service.main.name}"
+  // scale dimensions
+  scalable_dimension = "ecs:service:DesiredCount"
+
+  // scale down by 1 when cpu usage is below 60%
+  step_scaling_policy_configuration {
+    // change in capacity when cpu usage below 60%
+    adjustment_type         = "ChangeInCapacity"
+    cooldown                = 60
+    metric_aggregation_type = "Maximum"
+
+    // remove 1 task when cpu usage below 60%
+    step_adjustment {
+      metric_interval_upper_bound = 0
+      scaling_adjustment          = -1
+    }
+  }
+  // create this resource when target is created
+  depends_on = [aws_appautoscaling_target.target]
+}
