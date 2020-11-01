@@ -1,17 +1,17 @@
 # Terraform AWS ECS Fargate Module
 
-This module create fargate cluster in ECS. Module is desinged to quicly implement fargate cluster for appmesh microservices or virtual gateway. Following are the features
+This module creates a fargate cluster in ECS. The module is designed to quickly implement fargate cluster for appmesh microservices or virtual gateway. Following are the features
 
 ## Features
 - Appmesh 
 - Cloudmap service
-- Virtual Gateway envoy proxy with load balancer
+- Virtual Gateway envoy proxy with a load balancer
 - Sidecars supported:
-	- envoy proxy
-	- aws xray
+  - envoy proxy
+  - aws xray
 - Secret Manager
-- Elastic container registory (ECR)
-- Auto Scalling
+- Elastic container registry (ECR)
+- Auto Scaling
 - Cloudwatch Dashboard
 - SSL cert on LB
 
