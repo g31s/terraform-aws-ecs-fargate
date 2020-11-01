@@ -1,4 +1,4 @@
-# ECS-Fargate Terraform Module
+# Terraform AWS ECS Fargate Module
 
 This module create fargate cluster in ECS. Module is desinged to quicly implement fargate cluster for appmesh microservices or virtual gateway. Following are the features
 
