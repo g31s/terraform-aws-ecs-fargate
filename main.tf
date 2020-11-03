@@ -40,7 +40,7 @@ data "template_file" "portmapping" {
 }
 
 // creating xray json defined in: ./templates/xray_tmp.json.tpl
-data "template_file" "xary" {
+data "template_file" "xray" {
   // set temp file path
   template  = file("${path.module}/templates/xray_tmp.json.tpl")
 }
@@ -62,12 +62,12 @@ data "template_file" "service_tmp" {
     prefix            = var.prefix
     app_name          = var.app_name
     env               = var.env
-    envoy_proxy_image = var.app_mesh_image
+    envoy_proxy_image = var.envoy_proxy_image
     mesh_name         = var.appmesh.name
     virtual_gateway   = var.virtual_gateway
     virtual_node_name = var.aws_appmesh_virtual_node
     secrets           = join(",", data.template_file.secrets_tmp.*.rendered)
-    xray              = var.xray ? data.template_file.xary.rendered : ""
+    xray              = var.xray ? data.template_file.xray.rendered : ""
   }
 }
 
@@ -87,7 +87,7 @@ resource "aws_ecs_task_definition" "main" {
   memory                    = var.fargate_memory
 
   task_role_arn             = aws_iam_role.ecs_task_execution_role.arn
-  // attach a role to definition discribed in role.tf
+  // attach a role to definition described in role.tf
   execution_role_arn        = aws_iam_role.ecs_task_execution_role.arn
 
   // add envoy proxy to task definition
@@ -131,14 +131,14 @@ resource "aws_ecs_service" "main" {
     ignore_changes = [desired_count]
   }
 
-  // set the security groups and don't asign public ip
+  // set the security groups and don't assign public ip
   network_configuration {
     // set the security group to service defined in security.tf
     // set security group if alb set to true in module variables
     security_groups   = [aws_security_group.ecs_tasks.id]
     // service can autoscale in private subnet
     subnets           = var.vpc.private_subnets
-    // no public ip assign. will use loadbalancer
+    // no public ip assigned will use loadbalancer
     assign_public_ip  = false
   }
 

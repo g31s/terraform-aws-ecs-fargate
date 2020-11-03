@@ -17,7 +17,7 @@ variable "region" {
 
 variable "env" {
   type        = string
-  description = "app deployment enviroment"
+  description = "app deployment environment"
 }
 
 // app variables
@@ -67,7 +67,7 @@ variable "min_app_count" {
 
 variable "extra_ports" {
   type        = list(string)
-  description = "additionals port to expose. useful case: rabbitmq"
+  description = "additional ports to expose. useful case: rabbitmq"
   default     = []
 }
 
@@ -92,11 +92,11 @@ variable "virtual_gateway" {
 
 variable "envoy_proxy_image" {
   type        = string
-  description = "app mesh image for all regions expect me-south-1 and ap-east-1"
+  description = "app mesh image for all regions except me-south-1 and ap-east-1"
   default     = "840364872350.dkr.ecr.us-east-1.amazonaws.com/aws-appmesh-envoy:v1.15.1.0-prod"
 }
 
-// load balancer variabels
+// load balancer variables
 variable "certificate_arn" {
   type        = string
   description = "set to true to add ssl to alb"
@@ -105,21 +105,21 @@ variable "certificate_arn" {
 
 variable "nlb_stickiness" {
   type = bool
-  description = "enable stickiness for network load balacner"
+  description = "enable stickiness for network load balancer"
   default = false
 }
 
 // add xray to task definition
 variable "xray" {
   type = bool
-  description = "add xray demon as sidecar"
+  description = "add xray daemon as sidecar"
   default = false
 }
 
 // tags
 variable "tags" {
   type        = map(string)
-  description = "tags add to all resources created with this module"
+  description = "tags to add to all resources created with this module"
   default     = {
     Terraform = "true"
     Module    = "ecs-fargate"  

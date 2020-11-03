@@ -10,7 +10,7 @@ This file will create following:
 
 // add application load balancer
 resource "aws_lb" "main" {
-  // create lb if virtual_gateway is enable
+  // create lb if virtual_gateway is enabled
   count = var.virtual_gateway == "none" ? 0 : 1
   // name for lb
   name            = "${var.env}-${var.app_name}-lb"
@@ -25,7 +25,7 @@ resource "aws_lb" "main" {
 
 // create target group for fargate service
 resource "aws_lb_target_group" "main" {
-  // create lb if virtual_gateway is enable
+  // create lb if virtual_gateway is enabled
   count = var.virtual_gateway == "none" ? 0 : 1
   // set name for target group
   name        = "${var.prefix}-${var.env}-${var.app_name}-tg"
@@ -50,8 +50,8 @@ resource "aws_lb_target_group" "main" {
 }
 
 /// http listener if no certificate provided
-resource "aws_lb_listener" "fornt_end_http_wihtout_cert" {
-  // create lb if virtual_gateway is enable
+resource "aws_lb_listener" "front_end_http_without_cert" {
+  // create lb if virtual_gateway is enabled
   count = var.virtual_gateway == "none" ? 0 : 1
   // set lb arn to listener
   load_balancer_arn = aws_lb.main[count.index].id
@@ -69,9 +69,9 @@ resource "aws_lb_listener" "fornt_end_http_wihtout_cert" {
   }
 }
 
-// redirect all trafiic from lb to target groups
+// redirect all traffic from lb to target groups
 resource "aws_lb_listener" "front_end_https" {
-  // create ony if certificate is provided
+  // create only if certificate is provided
   count = (var.virtual_gateway != "none" && var.certificate_arn != "none") ? 1 : 0
   // set lb arn to listener
   load_balancer_arn   = aws_lb.main[count.index].id

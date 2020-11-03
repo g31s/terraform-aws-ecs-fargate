@@ -4,7 +4,7 @@ Version: 0.0.1
 
 This file will create:
   - IAM policy: to allow ecs tasks to assume role
-  - IAM role: assume role policy we defined
+  - IAM role: to assume role policy we defined
   - IAM role: to assume secret manager policy
   - IAM role: to assume appmesh envoy access 
 */
@@ -13,7 +13,7 @@ This file will create:
 data "aws_iam_policy_document" "ecs_task_execution_role" {
   // version for policy
   version   = "2012-10-17"
-  // state for policy allow service to assume role
+  // state for policy to allow service to assume role
   statement {
     sid     = ""
     effect  = "Allow"

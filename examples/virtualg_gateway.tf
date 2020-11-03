@@ -31,7 +31,7 @@ resource "aws_appmesh_mesh" "main" {
 
 resource "aws_service_discovery_private_dns_namespace" "main" {
   name        = "test.local"
-  description = "all services will be registered under this comman namespace"
+  description = "all services will be registered under this common namespace"
   vpc         = module.vpc.vpc_id
 }
 
@@ -52,16 +52,6 @@ resource "aws_service_discovery_service" "envoy_proxy" {
   }
 
 }
-
-resource "aws_appmesh_mesh" "main" {
-  name = "test-app-mesh"
-  spec {
-    egress_filter {
-      type = "DROP_ALL"
-    }
-  }
-}
-
 
 resource "aws_appmesh_virtual_gateway" "vgateway" {
   name      = "test-vg"
@@ -92,18 +82,19 @@ resource "aws_appmesh_gateway_route" "route" {
   name                 = "test-gateway-route"
   virtual_gateway_name = aws_appmesh_virtual_gateway.vgateway.name
   mesh_name            = aws_appmesh_mesh.main.name
-
-  http_route {
-    action {
-      target {
-        virtual_service {
-          virtual_service_name = aws_appmesh_virtual_service.app.name
+  spec {
+    http_route {
+      action {
+        target {
+          virtual_service {
+            virtual_service_name = aws_appmesh_virtual_service.app.name
+          }
         }
       }
-    }
 
-    match {
-      prefix = "/"
+      match {
+        prefix = "/"
+      }
     }
   }
 }

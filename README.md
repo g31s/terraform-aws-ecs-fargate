@@ -1,6 +1,6 @@
 # Terraform AWS ECS Fargate Module
 
-This module creates a fargate cluster in ECS. The module is designed to quickly implement fargate cluster for appmesh microservices or virtual gateway. Following are the features
+The module is developed to quickly implement fargate cluster for appmesh microservices or virtual gateway. Following are the features
 
 ## Features
 - Appmesh 
@@ -53,10 +53,10 @@ More examples: [Examples](./examples/)
 | secrets 	              	  | 	   	N 		| 	    []	 	|  list(string) | Will add IAM permissions and secrets to task definition |	["db_name","db_pass"]|
 | aws_appmesh_virtual_node 	  | 	   	N 		| 	  "none"	|	  string 	| virtual node or virtual gateway must be present|aws_appmesh_virtual_node.main.name |
 | virtual_gateway             | 	   	N 		| 	  "none"	|	  string 	| virtual node or virtual gateway must be present|"test_virtual_gateway" |
-| envoy_proxy_image           | 	   	N 		|"840364872350.dkr.ecr.us-east-1.amazonaws.com/aws-appmesh-envoy:v1.15.1.0-prod"|string|work for all regions expect: me-south-1, ap-east-1, and eu-south-1  |me-south-1 : "772975370895.dkr.ecr.me-south-1.amazonaws.com/aws-appmesh-envoy:v1.15.1.0-prod" |
+| envoy_proxy_image           | 	   	N 		|"840364872350.dkr.ecr.us-east-1.amazonaws.com/aws-appmesh-envoy:v1.15.1.0-prod"|string|work for all regions except: me-south-1, ap-east-1, and eu-south-1  |me-south-1 : "772975370895.dkr.ecr.me-south-1.amazonaws.com/aws-appmesh-envoy:v1.15.1.0-prod" |
 | certificate_arn             | 	   	N 		| 	  "none"	|	  string 	|set certificate on LB|	aws_acm_certificate.privateCA.arn |
-| nlb_stickiness              | 	   	N 		| 	   false	|	  bool 		|enable stickiness for network load balacner|	true |
-| xray			              | 	   	N 		| 	   false	|	  bool 		|add xray demon as sidecar	 	|	true |
+| nlb_stickiness              | 	   	N 		| 	   false	|	  bool 		|enable stickiness for network load balancer|	true |
+| xray			              | 	   	N 		| 	   false	|	  bool 		|add xray daemon as sidecar	 	|	true |
 | tags               		  | 	   	N 		|{Terraform = "true",Module    = "ecs-fargate-appmesh"}	 |	  map(string) 	| 	    -	 	|	{name = "test"} |
 
 ## Output Variables
@@ -72,6 +72,7 @@ More examples: [Examples](./examples/)
 ## Authors
 
 * **g31s** - *Initial work* - [g31s](https://github.com/g31s)
+* **tajinder1337** - [tajinder1337](https://github.com/tajinder1337)  
 
 See also the list of [contributors](https://github.com/g31s/ecs-fargate/contributors) who participated in this project.
 

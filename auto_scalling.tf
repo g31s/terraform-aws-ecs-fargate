@@ -3,14 +3,14 @@ Module: ECS-Fargate-Appmesh
 Version: 0.0.1
 
 This file will create:
-  - auto scalling target
-  - auto scalling policy to add new containers
-  - auto scalling policy to remove containers
+  - auto scaling target
+  - auto scaling policy to add new containers
+  - auto scaling policy to remove containers
 */
 
 // auto scale target set for fargate service 
 resource "aws_appautoscaling_target" "target" {
-  // serice_namespce
+  // serice_namesapce
   service_namespace  = "ecs"
   // resource id for fargate service
   resource_id        = "service/${aws_ecs_cluster.main.name}/${aws_ecs_service.main.name}"
@@ -22,7 +22,7 @@ resource "aws_appautoscaling_target" "target" {
   max_capacity       = 10
 }
 
-// when to scale up task in fargate service
+// when to scale up tasks in fargate service
 resource "aws_appautoscaling_policy" "up" {
   // name for policy
   name               = "${var.prefix}-${var.env}-${var.app_name}-scale-up"
@@ -56,7 +56,7 @@ resource "aws_appautoscaling_policy" "down" {
   name               = "${var.prefix}-${var.env}-${var.app_name}-scale-down"
   // set service namespace
   service_namespace  = "ecs"
-  // et resource id from fargate service
+  // set resource id from fargate service
   resource_id        = "service/${aws_ecs_cluster.main.name}/${aws_ecs_service.main.name}"
   // scale dimensions
   scalable_dimension = "ecs:service:DesiredCount"

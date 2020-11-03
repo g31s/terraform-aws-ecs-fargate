@@ -3,10 +3,10 @@ Module: ECS-Fargate-Appmesh
 Version: 0.0.1
 
 This file will create:
-  - security groups attach to ecs tasks and allow permission from private or public subnet.
+  - security groups to attach to ecs tasks and allow permission from private or public subnet.
 */
 
-// traffic to the ECS cluster should only come from the ALB
+// traffic to the ECS cluster should only come from the LB
 resource "aws_security_group" "ecs_tasks" {
   // add name
   name        = "${var.prefix}-${var.env}-${var.app_name}-ecs-tasks-security-group"
@@ -32,6 +32,6 @@ resource "aws_security_group" "ecs_tasks" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  // add tagss
+  // add tags
   tags = var.tags
 }

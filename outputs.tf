@@ -13,7 +13,7 @@ output "ecs_cluster_arn" {
 
 output "ecs_service_arn" {
   description = "ECS service arn"
-  value = aws_ecs_service.main.arn
+  value = aws_ecs_service.main.id
 }
 
 // ECR output variables

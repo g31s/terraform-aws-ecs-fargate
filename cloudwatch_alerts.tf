@@ -2,7 +2,7 @@
 Module: ECS-Fargate-Appmesh
 Version: 0.0.1
 
-This file will create following cloud watch alerts:
+This file will create following cloudwatch alerts:
   - when fargate container reach 80% or above cpu usage
   - when fargate comtainer has 60% or below cpu usage
 Actions:
@@ -35,7 +35,7 @@ resource "aws_cloudwatch_metric_alarm" "service_cpu_high" {
     ServiceName = aws_ecs_service.main.name
   }
 
-  // run scalling up policy when this alert get triggered
+  // run scaling up policy when this alert gets triggered
   alarm_actions = [aws_appautoscaling_policy.up.arn]
 
   // add tags
@@ -61,13 +61,13 @@ resource "aws_cloudwatch_metric_alarm" "service_cpu_low" {
   // trigger when cpu at 60% or below for 1 min.
   threshold           = "60"
 
-  // dimensions for alter
+  // dimensions for alert
   dimensions = {
     ClusterName = aws_ecs_cluster.main.name
     ServiceName = aws_ecs_service.main.name
   }
 
-  // run scalling up policy when this alert get triggered
+  // run scaling up policy when this alert gets triggered
   alarm_actions = [aws_appautoscaling_policy.down.arn]
 
   // add tags

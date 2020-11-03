@@ -31,7 +31,7 @@ resource "aws_appmesh_mesh" "main" {
 
 resource "aws_service_discovery_private_dns_namespace" "main" {
   name        = "test.local"
-  description = "all services will be registered under this comman namespace"
+  description = "all services will be registered under this common namespace"
   vpc         = module.vpc.vpc_id
 }
 
@@ -49,16 +49,6 @@ resource "aws_service_discovery_service" "app" {
   }
   health_check_custom_config {
     failure_threshold = 1
-  }
-}
-
-
-resource "aws_appmesh_mesh" "main" {
-  name = "app-app-mesh"
-  spec {
-    egress_filter {
-      type = "DROP_ALL"
-    }
   }
 }
 
