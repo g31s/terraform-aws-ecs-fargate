@@ -1,6 +1,6 @@
 /*
 Module: ECS-Fargate-Appmesh
-Version: 0.0.1
+Version: 0.0.2
 
 This file will create:
   - IAM policy: to allow ecs tasks to assume role
@@ -52,7 +52,7 @@ resource "aws_iam_role_policy_attachment" "ecs_appmesh_envoy_access_role" {
 
 // to attach the secret manager policy
 resource "aws_iam_role_policy_attachment" "sm-policy-attach" {
-  count  = length(var.secrets) == 0 ? 0 : 1
+  count      = length(var.secrets) == 0 ? 0 : 1
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
 }

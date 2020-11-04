@@ -1,6 +1,6 @@
 /*
 Module: ECS-Fargate-APPMESH
-Version: 0.0.1
+Version: 0.0.2
 
 This file defines all the variables for this module.
 Variables are divided into two sections:
@@ -37,6 +37,12 @@ variable "appmesh" {
 
 variable "cloudmap_service" {
   description = "register service in cloudpmap"
+}
+
+variable "cw_dashboard" {
+  type        = string
+  description = "set to true to add cloudwatch dashboard"
+  default     = "none"
 }
 
 // vpc variables

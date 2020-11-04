@@ -1,6 +1,6 @@
 /*
 Module: ECS-Fargate-Appmesh
-Version: 0.0.1s
+Version: 0.0.2
 
 This file will create following:
   - elastic load balancer
