@@ -14,6 +14,7 @@ The module is developed to quickly implement fargate cluster for appmesh microse
 - Auto Scaling
 - Cloudwatch Dashboard
 - SSL cert on LB
+- Cloudwatch Dashboard
 
 ## Example
 Following example creates fargate cluster for appmesh service
