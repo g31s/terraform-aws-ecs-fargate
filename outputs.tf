@@ -1,6 +1,6 @@
 /* 
 Module: ECS-Fargate-APPMESH
-Version: 0.0.2
+Version: 1.0.0
 
 This file defines the output variables for this module
 */

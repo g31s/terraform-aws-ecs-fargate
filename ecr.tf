@@ -1,6 +1,6 @@
 /* 
 Module: ECS-Fargate-Appmesh
-Version: 0.0.2
+Version: 1.0.0
 
 This file will create following:
   - elastic contaienr registry to store app docker image

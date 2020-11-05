@@ -1,6 +1,6 @@
 /*
 Module: ECS-Fargate-Appmesh
-Version: 0.0.2
+Version: 1.0.0
 
 This file will create:
   - security groups to attach to ecs tasks and allow permission from private or public subnet.

@@ -1,6 +1,6 @@
 /* 
 Module: ECS-Fargate-Appmesh
-Version: 0.0.2
+Version: 1.0.0
 
 This file will create following cloudwatch alerts:
   - when fargate container reach 80% or above cpu usage
