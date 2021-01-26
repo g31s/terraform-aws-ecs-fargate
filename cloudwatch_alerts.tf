@@ -4,7 +4,7 @@ Version: 1.0.0
 
 This file will create following cloudwatch alerts:
   - when fargate container reach 80% or above cpu usage
-  - when fargate comtainer has 60% or below cpu usage
+  - when fargate container has 60% or below cpu usage
 Actions:
   - add new container on high cpu usage alert
   - remove container on low cpu usage alert
@@ -42,7 +42,7 @@ resource "aws_cloudwatch_metric_alarm" "service_cpu_high" {
   tags    = var.tags
 }
 
-// cloudWatch alarm that triggers the autoscaling down policy
+// cloudWatch alarm that triggers the auto scaling down policy
 resource "aws_cloudwatch_metric_alarm" "service_cpu_low" {
   // set alert name
   alarm_name          = "${var.prefix}-${var.env}-${var.app_name}-cpu-utilization-low"

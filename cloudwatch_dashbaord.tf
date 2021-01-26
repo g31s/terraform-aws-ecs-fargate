@@ -3,7 +3,7 @@ Module: ECS-Fargate-Appmesh
 Version: 1.0.0
 
 This file will create following:
-  - cloudwatch dashboard for app and virutal gateway
+  - cloudwatch dashboard for app and virtual gateway
 */
 
 data "template_file" "lb_dash_body" {

@@ -36,7 +36,7 @@ variable "appmesh" {
 }
 
 variable "cloudmap_service" {
-  description = "register service in cloudpmap"
+  description = "register service in cloudmap"
 }
 
 variable "cw_dashboard" {
@@ -79,7 +79,7 @@ variable "extra_ports" {
 
 variable "secrets" {
   type = list(string)
-  description = "allow fargate task accesss to secret manager secrets"
+  description = "allow fargate task access to secret manager secrets"
   default = []
 }
 

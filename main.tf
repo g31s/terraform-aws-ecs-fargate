@@ -28,7 +28,7 @@ data "template_file" "secrets_tmp" {
   }  
 }
 
-// creating portmapping json defined in: ./templates/portmappings_tmp.json.tpl
+// creating port mapping json defined in: ./templates/portmappings_tmp.json.tpl
 data "template_file" "portmapping" {
   // run as many times as secrets in variables
   count  = length(var.extra_ports)
@@ -126,7 +126,7 @@ resource "aws_ecs_service" "main" {
   // set launch type
   launch_type     = "FARGATE"
 
-  // preserve desired count when updating an autoscaled ECS Service
+  // preserve desired count when updating an auto-scale ECS Service
   lifecycle {
     ignore_changes = [desired_count]
   }

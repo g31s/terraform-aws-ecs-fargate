@@ -23,7 +23,7 @@ resource "aws_security_group" "ecs_tasks" {
     cidr_blocks         = var.virtual_gateway == "none" ? var.vpc.private_subnets_cidr_blocks : var.vpc.public_subnets_cidr_blocks
   }
 
-  // fargate containers can access anything over the internet. 
+  // fargate containers can access anything over the Internet. 
   // this is not the best idea because of SSRF attacks.
   egress {
     protocol    = "-1"
