@@ -28,8 +28,21 @@ output "ecr_repo_name" {
 }
 
 // load balancer variables
-output "nlb" {
-  value = var.virtual_gateway == "none" ? {} : aws_lb.main[0]
+output "nlb_arn" {
+  value = var.virtual_gateway == "none" ? "" : aws_lb.main[0].arn
+}
+
+// load balancer variables
+output "nlb_arn" {
+  value = var.virtual_gateway == "none" ? "" : aws_lb.main[0].arn
+}
+
+output "nlb_dns_name" {
+  value = var.virtual_gateway == "none" ? "" : aws_lb.main[0].dns_name
+}
+
+output "nlb_zone_id" {
+  value = var.virtual_gateway == "none" ? "" : aws_lb.main[0].zone_id
 }
 
 output "target_group_arn" {
