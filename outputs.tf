@@ -29,7 +29,7 @@ output "ecr_repo_name" {
 
 // load balancer variables
 output "nlb" {
-  value = var.virtual_gateway == "none" ? "" : aws_lb.main[0]
+  value = var.virtual_gateway == "none" ? {} : aws_lb.main[0]
 }
 
 output "target_group_arn" {
