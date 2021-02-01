@@ -32,11 +32,6 @@ output "nlb_arn" {
   value = var.virtual_gateway == "none" ? "" : aws_lb.main[0].arn
 }
 
-// load balancer variables
-output "nlb_arn" {
-  value = var.virtual_gateway == "none" ? "" : aws_lb.main[0].arn
-}
-
 output "nlb_dns_name" {
   value = var.virtual_gateway == "none" ? "" : aws_lb.main[0].dns_name
 }
