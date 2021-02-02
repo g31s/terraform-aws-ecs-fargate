@@ -19,12 +19,12 @@ resource "aws_ecs_cluster" "main" {
 // creating secret manager json defined in: ./templates/secrets_tmp.json.tpl
 data "template_file" "secrets_tmp" {
   // run as many times as secrets in variables
-  count  = length(var.secrets)
+  count  = length(aws_secretsmanager_secret.main)
   // set temp file path
   template  = file("${path.module}/templates/secrets_tmp.json.tpl")
   vars      = { 
     aws_region  = var.region
-    secret      = element(var.secrets,count.index)
+    secret      = element(aws_secretsmanager_secret.main,count.index)
   }  
 }
 

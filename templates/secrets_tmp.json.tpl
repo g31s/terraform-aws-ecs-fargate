@@ -1,4 +1,4 @@
 {
-    "name": "${secret}",
-    "valueFrom": "arn:aws:secretsmanager:${aws_region}:333373921936:secret:${secret}"
+    "name": "${secret.name}",
+    "valueFrom": ${secret.arn}"
 }
