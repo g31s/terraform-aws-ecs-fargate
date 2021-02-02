@@ -1,4 +1,4 @@
 {
-    "name": "${secret.name}",
-    "valueFrom": ${secret.arn}"
+    "name": "${name}",
+    "valueFrom": ${arn}"
 }
