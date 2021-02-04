@@ -1,4 +1,4 @@
-/*
+ /*
 Module: ECS-Fargate-Appmesh
 Version: 1.0.0
 
@@ -52,11 +52,10 @@ resource "aws_lb_target_group" "main" {
 /// http listener if no certificate provided
 resource "aws_lb_listener" "front_end_http_without_cert" {
   // create lb if virtual_gateway is enabled
-  count = var.virtual_gateway == "none" ? 0 : 1
+  count = (var.virtual_gateway == "none" && !var.certificate) ? 0 : 1
   // set lb arn to listener
   load_balancer_arn = aws_lb.main[count.index].id
-  // set 
-  
+  // set port
   port              = 80
   // set protocol
   protocol          = "TCP"
@@ -69,10 +68,33 @@ resource "aws_lb_listener" "front_end_http_without_cert" {
   }
 }
 
+/// https listener to redirect from port 80 to 443 if certificate is given
+resource "aws_lb_listener" "front_end_http_without_cert" {
+  // create lb if virtual_gateway is enabled and ceritificate given
+  count = (var.virtual_gateway != "none" && var.certificate) ? 1 : 0
+  // set lb arn to listener
+  load_balancer_arn = aws_lb.main[count.index].id 
+  // set port
+  port              = 80
+  // set protocol
+  protocol          = "TCP"
+  default_action {
+    // type of action
+    type              = "redirect"
+    // redirect to port 443
+    redirect {
+      port          = "443"
+      protocol      = "HTTPS"
+      status_code   = "HTTP_301"
+    }
+    
+  }
+}
+
 // redirect all traffic from lb to target groups
 resource "aws_lb_listener" "front_end_https" {
   // create only if certificate is provided
-  count = (var.virtual_gateway != "none" && var.certificate_arn != "none") ? 1 : 0
+  count = (var.virtual_gateway != "none" && var.certificate) ? 1 : 0
   // set lb arn to listener
   load_balancer_arn   = aws_lb.main[count.index].id
   // set port

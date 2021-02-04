@@ -17,9 +17,9 @@ resource "aws_appautoscaling_target" "target" {
   // scale dimension for service. set minimum to 1 and max to 10
   scalable_dimension = "ecs:service:DesiredCount"
   // minimum running services 
-  min_capacity       = 1
+  min_capacity       = var.min_task_count
   // maximun running services 
-  max_capacity       = 10
+  max_capacity       = var.max_task_count
 }
 
 // when to scale up tasks in fargate service
@@ -35,10 +35,10 @@ resource "aws_appautoscaling_policy" "up" {
 
   // scale up by 1 when cpu usage is above 80%
   step_scaling_policy_configuration {
-    // change in capacity when reach 80% cpu usage
+    // change in capacity when reach 60% cpu usage. after 1 min
     adjustment_type         = "ChangeInCapacity"
-    cooldown                = 80
-    metric_aggregation_type = "Maximum"
+    cooldown                = 60
+    metric_aggregation_type = "Average"
 
     // add 1 more task when reach 80%
     step_adjustment {
@@ -63,10 +63,10 @@ resource "aws_appautoscaling_policy" "down" {
 
   // scale down by 1 when cpu usage is below 60%
   step_scaling_policy_configuration {
-    // change in capacity when cpu usage below 60%
+    // change in capacity when cpu usage below 60%. after 300 seconds
     adjustment_type         = "ChangeInCapacity"
-    cooldown                = 60
-    metric_aggregation_type = "Maximum"
+    cooldown                = 300
+    metric_aggregation_type = "Average"
 
     // remove 1 task when cpu usage below 60%
     step_adjustment {

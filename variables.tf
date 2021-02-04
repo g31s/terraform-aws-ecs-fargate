@@ -65,10 +65,16 @@ variable "app_image" {
   default = "none"
 }
 
-variable "min_app_count" {
+variable "min_task_count" {
   type        = number
   description = "minimum number of app containers running"
   default     = 1
+}
+
+variable "max_task_count" {
+  type        = number
+  description = "minimum number of app containers running"
+  default     = 10
 }
 
 variable "extra_ports" {
@@ -103,6 +109,12 @@ variable "envoy_proxy_image" {
 }
 
 // load balancer variables
+variable "certificate" {
+  type        = bool
+  description = "create ceritificate resurces if value true"
+  default     = false
+}
+
 variable "certificate_arn" {
   type        = string
   description = "set to true to add ssl to alb"

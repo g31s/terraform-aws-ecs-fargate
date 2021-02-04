@@ -11,7 +11,7 @@ This file will create following:
 // create aws_ecs_cluster with input name
 resource "aws_ecs_cluster" "main" {
   // set name for ecs cluster
-  name = "${var.env}-${var.app_name}-cluster"
+  name = "${var.prefix}-${var.env}-${var.app_name}-cluster"
   // set tags for cluster
   tags = var.tags
 }
@@ -23,7 +23,7 @@ data "template_file" "secrets_tmp" {
   // set temp file path
   template  = file("${path.module}/templates/secrets_tmp.json.tpl")
   vars      = { 
-    name     = element(var.secrets,count.index)
+    name     = element(aws_secretsmanager_secret.main.*.name,count.index)
     arn      = element(aws_secretsmanager_secret.main.*.arn,count.index)
   }  
 }
@@ -126,9 +126,9 @@ resource "aws_ecs_service" "main" {
   // set launch type
   launch_type     = "FARGATE"
 
-  // preserve desired count when updating an auto-scale ECS Service
+  // don't let outsider change task definition.
   lifecycle {
-    ignore_changes = [desired_count]
+    ignore_changes = [task_definition]
   }
 
   // set the security groups and don't assign public ip

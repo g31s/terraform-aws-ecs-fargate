@@ -1,4 +1,4 @@
 {
     "name": "${name}",
-    "valueFrom": ${arn}"
+    "valueFrom": "${arn}"
 }
