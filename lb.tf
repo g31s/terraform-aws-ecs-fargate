@@ -69,7 +69,7 @@ resource "aws_lb_listener" "front_end_http_without_cert" {
 }
 
 /// https listener to redirect from port 80 to 443 if certificate is given
-resource "aws_lb_listener" "front_end_http_without_cert" {
+resource "aws_lb_listener" "front_end_http" {
   // create lb if virtual_gateway is enabled and ceritificate given
   count = (var.virtual_gateway != "none" && var.certificate) ? 1 : 0
   // set lb arn to listener
