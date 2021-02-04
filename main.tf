@@ -122,7 +122,7 @@ resource "aws_ecs_service" "main" {
   // add task definition 
   task_definition = aws_ecs_task_definition.main.id
   // set the desired count
-  desired_count   = var.min_app_count
+  desired_count   = var.min_task_count
   // set launch type
   launch_type     = "FARGATE"
 
