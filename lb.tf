@@ -52,7 +52,7 @@ resource "aws_lb_target_group" "main" {
 /// http listener if no certificate provided
 resource "aws_lb_listener" "front_end_http_without_cert" {
   // create lb if virtual_gateway is enabled
-  count = (var.virtual_gateway == "none" && !var.certificate) ? 0 : 1
+  count = var.virtual_gateway == "none" ? 0 : 1
   // set lb arn to listener
   load_balancer_arn = aws_lb.main[count.index].id
   // set port
@@ -64,29 +64,6 @@ resource "aws_lb_listener" "front_end_http_without_cert" {
     type              = "forward"
     // add target arn
     target_group_arn  = aws_lb_target_group.main[count.index].id
-    
-  }
-}
-
-/// https listener to redirect from port 80 to 443 if certificate is given
-resource "aws_lb_listener" "front_end_http" {
-  // create lb if virtual_gateway is enabled and ceritificate given
-  count = (var.virtual_gateway != "none" && var.certificate) ? 1 : 0
-  // set lb arn to listener
-  load_balancer_arn = aws_lb.main[count.index].id 
-  // set port
-  port              = 80
-  // set protocol
-  protocol          = "TCP"
-  default_action {
-    // type of action
-    type              = "redirect"
-    // redirect to port 443
-    redirect {
-      port          = "443"
-      protocol      = "HTTPS"
-      status_code   = "HTTP_301"
-    }
     
   }
 }
