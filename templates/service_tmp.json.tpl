@@ -35,7 +35,8 @@
     ],
     "environment":
     [
-      { "name" : "AWS_XRAY_DAEMON_ADDRESS", "value" : "xray-daemon:2000" }
+      { "name" : "AWS_XRAY_DAEMON_ADDRESS", "value" : "xray-daemon:2000" },
+      { "name" : "ENV", "value" : "${env}" }
     ],
     "secrets": [${secrets}]
   },
