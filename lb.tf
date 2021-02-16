@@ -44,6 +44,13 @@ resource "aws_lb_target_group" "main" {
     enabled = var.nlb_stickiness
   }
 
+  // healthcheck for instance 
+  health_check {
+    enabled = var.health_check
+    timeout = var.health_check_timeout
+    path    = var.health_check_path
+  }
+
   // add tags
   tags        = var.tags
   depends_on = [aws_lb.main]

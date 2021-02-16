@@ -127,6 +127,25 @@ variable "nlb_stickiness" {
   default = false
 }
 
+// Health check variables
+variable "health_check" {
+  type = bool
+  description = "enable healthcheck for taget group"
+  default = true
+}
+
+variable "health_check_timeout" {
+  type        = number
+  description = "set timeout for healthcheck in seconds"
+  default     = 10
+}
+
+variable "health_check_path" {
+  type        = string
+  description = "set healthcheck path for instance"
+  default     = "/"
+}
+
 // add xray to task definition
 variable "xray" {
   type = bool
