@@ -84,7 +84,6 @@ variable "extra_ports" {
 }
 
 variable "secrets" {
-  type = list(string)
   description = "allow fargate task access to secret manager secrets"
   default = []
 }

@@ -23,8 +23,8 @@ data "template_file" "secrets_tmp" {
   // set temp file path
   template  = file("${path.module}/templates/secrets_tmp.json.tpl")
   vars      = { 
-    name     = element(aws_secretsmanager_secret.main.*.name,count.index)
-    arn      = element(aws_secretsmanager_secret.main.*.arn,count.index)
+    name     = element(var.secrets.*.name,count.index)
+    arn      = element(var.secrets.*.arn,count.index)
   }  
 }
 

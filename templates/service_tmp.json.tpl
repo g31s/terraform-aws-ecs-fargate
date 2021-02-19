@@ -20,16 +20,6 @@
       }
       ${extra_ports}
     ],
-    "healthCheck": {
-      "command": [
-        "CMD-SHELL",
-        "curl -f http://localhost:${app_port}/ || exit 1"
-      ],
-      "startPeriod": 10,
-      "interval": 5,
-      "timeout": 2,
-      "retries": 3
-    },
     "dependsOn": [
       {
         "containerName": "envoy",
