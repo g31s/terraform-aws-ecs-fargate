@@ -1,6 +1,6 @@
 /*
 Module: ECS-Fargate-APPMESH
-Version: 1.0.0
+Version: 1.2.7
 
 This file defines all the variables for this module.
 Variables are divided into two sections:
@@ -55,7 +55,13 @@ variable "vpc" {
 variable "prefix" {
   type        = string
   description = "project prefix added to all resources created"
-  default = "EFA"
+  default     = "EFA"
+}
+
+variable "policy_arn_attachments" {
+  type        = list(string)
+  description = "list of  policies that needs to be attached"
+  default     = []
 }
 
 // app variables
