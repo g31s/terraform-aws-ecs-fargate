@@ -69,7 +69,7 @@ resource "aws_iam_policy" "secrets_policy" {
                 "secretsmanager:ListSecretVersionIds"
             ],
         Effect   = "Allow"
-        Resource = var.secrets.*.arn
+        Resource = join(",", var.secrets.*.arn)
       },
     ]
   })
@@ -97,7 +97,7 @@ resource "aws_iam_policy" "parameters_policy" {
                 "ssm:DescribeParameters"
             ],
         Effect   = "Allow"
-        Resource = var.parameters.*.arn
+        Resource = join(",", var.parameters.*.arn)
       },
     ]
   })
