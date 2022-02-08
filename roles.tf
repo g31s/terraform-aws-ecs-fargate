@@ -52,6 +52,7 @@ resource "aws_iam_role_policy_attachment" "ecs_appmesh_envoy_access_role" {
 }
 
 resource "aws_iam_policy" "secrets_policy" {
+  count  = length(var.secrets) == 0 ? 0 : 1
   name        = "${var.prefix}-${var.env}-${var.app_name}-secrets-policy"
   path        = "/"
   description = "Defined policy to access secrets from secret manager"
@@ -77,11 +78,13 @@ resource "aws_iam_policy" "secrets_policy" {
 
 // to attach the secret manager policy
 resource "aws_iam_role_policy_attachment" "sm-policy-attach" {
+  count  = length(var.secrets) == 0 ? 0 : 1
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = aws_iam_policy.secrets_policy.arn
 }
 
 resource "aws_iam_policy" "parameters_policy" {
+  count  = length(var.parameters) == 0 ? 0 : 1
   name        = "${var.prefix}-${var.env}-${var.app_name}-parameters-policy"
   path        = "/"
   description = "Defined policy to access parameters from parameter store"
@@ -105,6 +108,7 @@ resource "aws_iam_policy" "parameters_policy" {
 
 // to attach the secret manager policy
 resource "aws_iam_role_policy_attachment" "ps-policy-attach" {
+  count  = length(var.parameters) == 0 ? 0 : 1
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = aws_iam_policy.parameters_policy.arn
 }
