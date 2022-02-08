@@ -16,12 +16,13 @@ resource "aws_ecs_cluster" "main" {
   tags = var.tags
 }
 
-// creating secret manager json defined in: ./templates/secrets_tmp.json.tpl
-data "template_file" "secrets_tmp" {
+// creating secret manager json defined in: ./templates/env_tmp.json.tpl
+data "template_file" "env_tmp" {
+  var.secrets = concat(var.secrets, var.parameters)
   // run as many times as secrets in variables
   count  = length(var.secrets)
   // set temp file path
-  template  = file("${path.module}/templates/secrets_tmp.json.tpl")
+  template  = file("${path.module}/templates/envs_tmp.json.tpl")
   vars      = { 
     name     = element(var.secrets.*.name,count.index)
     arn      = element(var.secrets.*.arn,count.index)
@@ -66,7 +67,7 @@ data "template_file" "service_tmp" {
     mesh_name         = var.appmesh.name
     virtual_gateway   = var.virtual_gateway
     virtual_node_name = var.aws_appmesh_virtual_node
-    secrets           = join(",", data.template_file.secrets_tmp.*.rendered)
+    secrets           = join(",", data.template_file.env_tmp.*.rendered)
     xray              = var.xray ? data.template_file.xray.rendered : ""
   }
 }

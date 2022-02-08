@@ -10,6 +10,7 @@ The module is developed to quickly implement fargate cluster for appmesh microse
   - envoy proxy
   - aws xray
 - Secret Manager
+- Parameter Store
 - Elastic container registry (ECR)
 - Auto Scaling
 - Cloudwatch Dashboard
@@ -53,6 +54,7 @@ More examples: [Examples](./examples/)
 | max_app_count               |       N     |      10   |   number  |       -   | 100 |
 | extra_ports 	              | 	   	N 		| 	    []	 	|  list(string)	| Open extra port in task definition	 	|	["443","542"] |
 | secrets 	              	  | 	   	N 		| 	    []	 	|  list(object) | Will add IAM permissions and secrets to task definition |	[aws_secretsmanager_secret.main.usernamer,aws_secretsmanager_secret.main.password]|
+| parameters                  |       N     |       []    | list(object)  | Will add IAM permissions and parameters to task defintion as env variables | [aws_ssm_parameter.main.configs] |
 | policy_arn_attachments      |     N       |       []    | list(string)   | can provide addition policies arns to be attached to ecs roles | [arn:aws:iam::aws:policy/service-role/AWSLambdaDynamoDBExecutionRole] |
 | aws_appmesh_virtual_node 	  | 	   	N 		| 	  "none"	|	  string 	| virtual node or virtual gateway must be present|aws_appmesh_virtual_node.main.name |
 | virtual_gateway             | 	   	N 		| 	  "none"	|	  string 	| virtual node or virtual gateway must be present|"test_virtual_gateway" |

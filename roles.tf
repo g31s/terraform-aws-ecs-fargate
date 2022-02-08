@@ -26,6 +26,7 @@ data "aws_iam_policy_document" "ecs_task_execution_role" {
   }
 }
 
+
 // ecs task execution role
 resource "aws_iam_role" "ecs_task_execution_role" {
   // set name for role 
@@ -50,11 +51,62 @@ resource "aws_iam_role_policy_attachment" "ecs_appmesh_envoy_access_role" {
   policy_arn  = "arn:aws:iam::aws:policy/AWSAppMeshEnvoyAccess"
 }
 
+resource "aws_iam_policy" "secrets_policy" {
+  name        = "${var.prefix}-${var.env}-${var.app_name}-secrets-policy"
+  path        = "/"
+  description = "Defined policy to access secrets from secret manager"
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+                "secretsmanager:GetResourcePolicy",
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:ListSecretVersionIds"
+            ],
+        Effect   = "Allow"
+        Resource = var.secrets.*.arn
+      },
+    ]
+  })
+}
+
 // to attach the secret manager policy
 resource "aws_iam_role_policy_attachment" "sm-policy-attach" {
-  count      = length(var.secrets) == 0 ? 0 : 1
   role       = aws_iam_role.ecs_task_execution_role.name
-  policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
+  policy_arn = aws_iam_policy.secrets_policy.arn
+}
+
+resource "aws_iam_policy" "parameters_policy" {
+  name        = "${var.prefix}-${var.env}-${var.app_name}-parameters-policy"
+  path        = "/"
+  description = "Defined policy to access parameters from parameter store"
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+                "ssm:GetParameters",
+                "ssm:DescribeParameters"
+            ],
+        Effect   = "Allow"
+        Resource = var.parameters.*.arn
+      },
+    ]
+  })
+}
+
+// to attach the secret manager policy
+resource "aws_iam_role_policy_attachment" "ps-policy-attach" {
+  role       = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = aws_iam_policy.parameters_policy.arn
 }
 
 // add module provided policies

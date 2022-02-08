@@ -94,6 +94,11 @@ variable "secrets" {
   default = []
 }
 
+variable "parameters" {
+  description = "allow farget task to access parameter store"
+  default = []
+}
+
 // appmesh variables
 variable "aws_appmesh_virtual_node" {
   type = string
