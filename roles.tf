@@ -66,10 +66,10 @@ resource "aws_iam_policy" "secrets_policy" {
                 "secretsmanager:GetResourcePolicy",
                 "secretsmanager:GetSecretValue",
                 "secretsmanager:DescribeSecret",
-                "secretsmanager:ListSecretVersionIds"
-            ],
+                "secretsmanager:ListSecretVersionIds",
+            ]
         Effect   = "Allow"
-        Resource = join(",", var.secrets.*.arn)
+        Resource = var.secrets.*.arn
       },
     ]
   })
@@ -94,10 +94,10 @@ resource "aws_iam_policy" "parameters_policy" {
       {
         Action = [
                 "ssm:GetParameters",
-                "ssm:DescribeParameters"
-            ],
+                "ssm:DescribeParameters",
+            ]
         Effect   = "Allow"
-        Resource = join(",", var.parameters.*.arn)
+        Resource = var.parameters.*.arn
       },
     ]
   })
