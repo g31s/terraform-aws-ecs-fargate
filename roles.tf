@@ -80,7 +80,7 @@ resource "aws_iam_policy" "secrets_policy" {
 resource "aws_iam_role_policy_attachment" "sm-policy-attach" {
   count  = length(var.secrets) == 0 ? 0 : 1
   role       = aws_iam_role.ecs_task_execution_role.name
-  policy_arn = aws_iam_policy.secrets_policy.arn
+  policy_arn = aws_iam_policy.secrets_policy[0].arn
 }
 
 resource "aws_iam_policy" "parameters_policy" {
@@ -110,7 +110,7 @@ resource "aws_iam_policy" "parameters_policy" {
 resource "aws_iam_role_policy_attachment" "ps-policy-attach" {
   count  = length(var.parameters) == 0 ? 0 : 1
   role       = aws_iam_role.ecs_task_execution_role.name
-  policy_arn = aws_iam_policy.parameters_policy.arn
+  policy_arn = aws_iam_policy.parameters_policy[0].arn
 }
 
 // add module provided policies
