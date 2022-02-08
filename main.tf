@@ -8,6 +8,10 @@ This file will create following:
   - ecs service
 */
 
+locals {
+  env = concat(var.secrets, var.parameters)
+}
+
 // create aws_ecs_cluster with input name
 resource "aws_ecs_cluster" "main" {
   // set name for ecs cluster
@@ -18,14 +22,13 @@ resource "aws_ecs_cluster" "main" {
 
 // creating secret manager json defined in: ./templates/env_tmp.json.tpl
 data "template_file" "env_tmp" {
-  var.secrets = concat(var.secrets, var.parameters)
   // run as many times as secrets in variables
-  count  = length(var.secrets)
+  count  = length(local.env)
   // set temp file path
-  template  = file("${path.module}/templates/envs_tmp.json.tpl")
+  template  = file("${path.module}/templates/env_tmp.json.tpl")
   vars      = { 
-    name     = element(var.secrets.*.name,count.index)
-    arn      = element(var.secrets.*.arn,count.index)
+    name     = element(local.env.*.name,count.index)
+    arn      = element(local.env.*.arn,count.index)
   }  
 }
 
