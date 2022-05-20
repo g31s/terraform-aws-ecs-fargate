@@ -115,7 +115,7 @@ variable "virtual_gateway" {
 variable "envoy_proxy_image" {
   type        = string
   description = "app mesh image for all regions except me-south-1 and ap-east-1"
-  default     = "840364872350.dkr.ecr.us-east-1.amazonaws.com/aws-appmesh-envoy:v1.17.2.0-prod"
+  default     = "840364872350.dkr.ecr.us-east-1.amazonaws.com/aws-appmesh-envoy:v1.22.0.0-prod"
 }
 
 // load balancer variables
