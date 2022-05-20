@@ -58,7 +58,7 @@ More examples: [Examples](./examples/)
 | policy_arn_attachments      |     N       |       []    | list(string)   | can provide addition policies arns to be attached to ecs roles | [arn:aws:iam::aws:policy/service-role/AWSLambdaDynamoDBExecutionRole] |
 | aws_appmesh_virtual_node 	  | 	   	N 		| 	  "none"	|	  string 	| virtual node or virtual gateway must be present|aws_appmesh_virtual_node.main.name |
 | virtual_gateway             | 	   	N 		| 	  "none"	|	  string 	| virtual node or virtual gateway must be present|"test_virtual_gateway" |
-| envoy_proxy_image           | 	   	N 		|"840364872350.dkr.ecr.us-east-1.amazonaws.com/aws-appmesh-envoy:v1.15.1.0-prod"|string|work for all regions except: me-south-1, ap-east-1, and eu-south-1  |me-south-1 : "772975370895.dkr.ecr.me-south-1.amazonaws.com/aws-appmesh-envoy:v1.15.1.0-prod" |
+| envoy_proxy_image           | 	   	N 		|"840364872350.dkr.ecr.us-east-1.amazonaws.com/aws-appmesh-envoy:v1.22.0.0-prod"|string|work for all regions except: me-south-1, ap-east-1, and eu-south-1  |me-south-1 : "772975370895.dkr.ecr.me-south-1.amazonaws.com/aws-appmesh-envoy:v1.22.0.0-prod" |
 | certificate                 | 	   	N 		| 	  false 	|	  bool 	| make sure to set this to true if providing certificate arn |	true |
 | certificate_arn             |       N     |     "none"  |   string  |set certificate on LB| aws_acm_certificate.privateCA.arn |
 | nlb_stickiness              | 	   	N 		| 	   false	|	  bool 		|enable stickiness for network load balancer|	true |
