@@ -11,7 +11,7 @@ resource "aws_security_group" "ecs_tasks" {
   // add name
   name        = "${var.prefix}-${var.env}-${var.app_name}-ecs-tasks-security-group"
   // add description
-  description = "Allow inbound access from the private subnets for appmesh services. Allow inbound access from lb if virtual_gateway is not none"
+  description = "Allow inbound access from the private subnets for appmesh services. Allow inbound access from lb if virtual_gateway_arn is not none"
   // set vpc_id
   vpc_id      = var.vpc.vpc_id
 
@@ -21,7 +21,7 @@ resource "aws_security_group" "ecs_tasks" {
     protocol            = "tcp"
     from_port           = var.app_port
     to_port             = var.app_port
-    cidr_blocks         = var.virtual_gateway == "none" ? var.vpc.private_subnets_cidr_blocks : var.vpc.public_subnets_cidr_blocks
+    cidr_blocks         = var.virtual_gateway_arn == "none" ? var.vpc.private_subnets_cidr_blocks : var.vpc.public_subnets_cidr_blocks
   }
 
   // fargate containers can access anything over the Internet. 

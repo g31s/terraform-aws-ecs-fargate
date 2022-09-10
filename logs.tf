@@ -15,7 +15,7 @@ resource "aws_cloudwatch_log_group" "fargate_service_log_group" {
   retention_in_days = 90
 
   // logs enc key
-  kms_key_id = var.cloudwatch_kms_key_arn != "" ? aws_kms_key.log_key.arn : ""
+  kms_key_id = var.cloudwatch_kms_key_arn != "" ? var.cloudwatch_kms_key_arn : ""
 
   // add tags
   tags  = var.tags

@@ -59,7 +59,7 @@ data "template_file" "xray" {
 // template to run the containers
 data "template_file" "service_tmp" {
   // get template file from templates folder
-  template  = var.virtual_gateway == "none" ? file("${path.module}/templates/service_tmp.json.tpl") : file("${path.module}/templates/envoy_proxy.json.tpl")
+  template  = var.virtual_gateway_arn == "none" ? file("${path.module}/templates/service_tmp.json.tpl") : file("${path.module}/templates/envoy_proxy.json.tpl")
   // variables for template
   vars      = { 
     // set container image provided by user or ecr url
