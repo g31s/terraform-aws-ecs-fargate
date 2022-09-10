@@ -23,7 +23,7 @@ resource "aws_ecr_repository" "ecr_repo" {
     for_each = [var.ecr_kms_key_arn]
     content {
       encryption_type = "KMS"
-      kms_key = encryption_configuration.value
+      kms_key         = encryption_configuration.value
     }
 
   }

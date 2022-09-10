@@ -46,9 +46,9 @@ variable "cw_dashboard" {
 }
 
 variable "container_insights" {
-  type          = bool
-  description   = "enable or disable container insights"
-  default       = true
+  type        = bool
+  description = "enable or disable container insights"
+  default     = true
 }
 
 variable "egress_cidr_blocks" {
@@ -91,9 +91,9 @@ variable "policy_arn_attachments" {
 
 // app variables
 variable "app_image" {
-  type = string
+  type        = string
   description = "docker image or by default creates ECS repo"
-  default = "none"
+  default     = "none"
 }
 
 variable "min_task_count" {
@@ -116,25 +116,25 @@ variable "extra_ports" {
 
 variable "secrets" {
   description = "allow fargate task access to secret manager secrets."
-  default = []
+  default     = []
 }
 
 variable "parameters" {
   description = "allow farget task to access parameter store"
-  default = []
+  default     = []
 }
 
 // appmesh variables
 variable "aws_appmesh_virtual_node_arn" {
-  type = string
+  type        = string
   description = "set appmesh virtual node arn"
-  default = "none"
+  default     = "none"
 }
 
 variable "virtual_gateway_arn" {
-  type = string
+  type        = string
   description = "set appmesh virtual gateway arn"
-  default = "none"
+  default     = "none"
 }
 
 
@@ -158,16 +158,16 @@ variable "certificate_arn" {
 }
 
 variable "nlb_stickiness" {
-  type = bool
+  type        = bool
   description = "enable stickiness for network load balancer"
-  default = false
+  default     = false
 }
 
 // Health check variables
 variable "health_check" {
-  type = bool
+  type        = bool
   description = "enable healthcheck for taget group"
-  default = true
+  default     = true
 }
 
 variable "health_check_timeout" {
@@ -184,18 +184,18 @@ variable "health_check_path" {
 
 // add xray to task definition
 variable "xray" {
-  type = bool
+  type        = bool
   description = "add xray daemon as sidecar"
-  default = false
+  default     = false
 }
 
 // tags
 variable "tags" {
   type        = map(string)
   description = "tags to add to all resources created with this module"
-  default     = {
+  default = {
     Terraform = "true"
-    Module    = "ecs-fargate"  
+    Module    = "ecs-fargate"
   }
 }
 

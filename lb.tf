@@ -1,4 +1,4 @@
- /*
+/*
 Module: ECS-Fargate-Appmesh
 Version: 2.0.0
 
@@ -13,14 +13,14 @@ resource "aws_lb" "main" {
   // create lb if virtual_gateway is enabled
   count = var.virtual_gateway_arn == "none" ? 0 : 1
   // name for lb
-  name            = "${var.env}-${var.app_name}-lb"
+  name = "${var.env}-${var.app_name}-lb"
   // putting it in public subnet
-  subnets         = var.vpc.public_subnets
+  subnets = var.vpc.public_subnets
   // type of load balancer
   load_balancer_type = "network"
 
   // add tags
-  tags            = var.tags
+  tags = var.tags
 }
 
 // create target group for fargate service
@@ -28,13 +28,13 @@ resource "aws_lb_target_group" "main" {
   // create lb if virtual_gateway is enabled
   count = var.virtual_gateway_arn == "none" ? 0 : 1
   // set name for target group
-  name        = "${var.prefix}-${var.env}-${var.app_name}-tg"
+  name = "${var.prefix}-${var.env}-${var.app_name}-tg"
   // set port for lb
-  port        = 80
+  port = 80
   // set protocol 
-  protocol    = "TCP"
+  protocol = "TCP"
   // add vpc id
-  vpc_id      = var.vpc.vpc_id
+  vpc_id = var.vpc.vpc_id
   // set target type is ip
   target_type = "ip"
 
@@ -45,7 +45,7 @@ resource "aws_lb_target_group" "main" {
   }
 
   // add tags
-  tags        = var.tags
+  tags       = var.tags
   depends_on = [aws_lb.main]
 }
 
@@ -56,15 +56,15 @@ resource "aws_lb_listener" "front_end_http_without_cert" {
   // set lb arn to listener
   load_balancer_arn = aws_lb.main[count.index].id
   // set port
-  port              = 80
+  port = 80
   // set protocol
-  protocol          = "TCP"
+  protocol = "TCP"
   default_action {
     // type of action
-    type              = "forward"
+    type = "forward"
     // add target arn
-    target_group_arn  = aws_lb_target_group.main[count.index].id
-    
+    target_group_arn = aws_lb_target_group.main[count.index].id
+
   }
 }
 
@@ -73,19 +73,19 @@ resource "aws_lb_listener" "front_end_https" {
   // create only if certificate is provided
   count = (var.virtual_gateway_arn != "none" && var.certificate) ? 1 : 0
   // set lb arn to listener
-  load_balancer_arn   = aws_lb.main[count.index].id
+  load_balancer_arn = aws_lb.main[count.index].id
   // set port
-  port                = 443
+  port = 443
   // set protocol
   ssl_policy = "ELBSecurityPolicy-TLS-1-2-2017-01"
-  protocol = "HTTPS"
+  protocol   = "HTTPS"
   // set the certificate defined in variable
-  certificate_arn     = var.certificate_arn
+  certificate_arn = var.certificate_arn
   // set the default action
   default_action {
     // add target arn
-    target_group_arn  = aws_lb_target_group.main[count.index].id
+    target_group_arn = aws_lb_target_group.main[count.index].id
     // type of action
-    type              = "forward"
+    type = "forward"
   }
 }

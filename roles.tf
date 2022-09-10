@@ -12,7 +12,7 @@ This file will create:
 // ecs task execution role json data
 data "aws_iam_policy_document" "ecs_task_execution_role" {
   // version for policy
-  version   = "2012-10-17"
+  version = "2012-10-17"
   // state for policy to allow service to assume role
   statement {
     sid     = ""
@@ -30,29 +30,29 @@ data "aws_iam_policy_document" "ecs_task_execution_role" {
 // ecs task execution role
 resource "aws_iam_role" "ecs_task_execution_role" {
   // set name for role 
-  name                = "${var.prefix}-${var.env}-${var.app_name}-ecs-task-execution-role"
+  name = "${var.prefix}-${var.env}-${var.app_name}-ecs-task-execution-role"
   // attach policy to role 
-  assume_role_policy  =  data.aws_iam_policy_document.ecs_task_execution_role.json
+  assume_role_policy = data.aws_iam_policy_document.ecs_task_execution_role.json
 
   // add tags
-  tags   = var.tags
+  tags = var.tags
 }
 
 // ecs task execution role policy attachment
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_role" {
-  role        = aws_iam_role.ecs_task_execution_role.name
-  policy_arn  = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+  role       = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
 
 // ecs task allow appmesh permissions policy attachment
 resource "aws_iam_role_policy_attachment" "ecs_appmesh_envoy_access_role" {
-  role        = aws_iam_role.ecs_task_execution_role.name
-  policy_arn  = "arn:aws:iam::aws:policy/AWSAppMeshEnvoyAccess"
+  role       = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSAppMeshEnvoyAccess"
 }
 
 resource "aws_iam_policy" "secrets_policy" {
-  count  = length(var.secrets) == 0 ? 0 : 1
+  count       = length(var.secrets) == 0 ? 0 : 1
   name        = "${var.prefix}-${var.env}-${var.app_name}-secrets-policy"
   path        = "/"
   description = "Defined policy to access secrets from secret manager"
@@ -64,11 +64,11 @@ resource "aws_iam_policy" "secrets_policy" {
     Statement = [
       {
         Action = [
-                "secretsmanager:GetResourcePolicy",
-                "secretsmanager:GetSecretValue",
-                "secretsmanager:DescribeSecret",
-                "secretsmanager:ListSecretVersionIds",
-            ]
+          "secretsmanager:GetResourcePolicy",
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:DescribeSecret",
+          "secretsmanager:ListSecretVersionIds",
+        ]
         Effect   = "Allow"
         Resource = var.secrets.*.arn
       },
@@ -78,13 +78,13 @@ resource "aws_iam_policy" "secrets_policy" {
 
 // to attach the secret manager policy
 resource "aws_iam_role_policy_attachment" "sm-policy-attach" {
-  count  = length(var.secrets) == 0 ? 0 : 1
+  count      = length(var.secrets) == 0 ? 0 : 1
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = aws_iam_policy.secrets_policy[0].arn
 }
 
 resource "aws_iam_policy" "parameters_policy" {
-  count  = length(var.parameters) == 0 ? 0 : 1
+  count       = length(var.parameters) == 0 ? 0 : 1
   name        = "${var.prefix}-${var.env}-${var.app_name}-parameters-policy"
   path        = "/"
   description = "Defined policy to access parameters from parameter store"
@@ -96,9 +96,9 @@ resource "aws_iam_policy" "parameters_policy" {
     Statement = [
       {
         Action = [
-                "ssm:GetParameters",
-                "ssm:DescribeParameters",
-            ]
+          "ssm:GetParameters",
+          "ssm:DescribeParameters",
+        ]
         Effect   = "Allow"
         Resource = var.parameters.*.arn
       },
@@ -108,7 +108,7 @@ resource "aws_iam_policy" "parameters_policy" {
 
 // to attach the secret manager policy
 resource "aws_iam_role_policy_attachment" "ps-policy-attach" {
-  count  = length(var.parameters) == 0 ? 0 : 1
+  count      = length(var.parameters) == 0 ? 0 : 1
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = aws_iam_policy.parameters_policy[0].arn
 }
