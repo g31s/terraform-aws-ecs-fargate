@@ -31,7 +31,7 @@ resource "aws_security_group" "ecs_tasks" {
     protocol    = "-1"
     from_port   = 0
     to_port     = 0
-    cidr_blocks = length(var.egress_cidr_blocks) != 0 ? var.egress_cidr_blocks : var.vpc.default_vpc_cidr_block
+    cidr_blocks = length(var.egress_cidr_blocks) != 0 ? var.egress_cidr_blocks : [var.vpc.vpc_cidr_block]
   }
 
   // add tags
