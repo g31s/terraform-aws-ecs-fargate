@@ -1,6 +1,6 @@
 /*
 Module: ECS-Fargate-Appmesh
-Version: 1.0.0
+Version: 2.0.0
 
 This file will create:
   - security groups to attach to ecs tasks and allow permission from private or public subnet.
@@ -17,6 +17,7 @@ resource "aws_security_group" "ecs_tasks" {
 
   // incoming tcp port open for fargate services
   ingress {
+    description         = "enable incomming traffic to ecs fargate services. Other than virtual gateway only private subnets allowed"
     protocol            = "tcp"
     from_port           = var.app_port
     to_port             = var.app_port
@@ -26,10 +27,11 @@ resource "aws_security_group" "ecs_tasks" {
   // fargate containers can access anything over the Internet. 
   // this is not the best idea because of SSRF attacks.
   egress {
+    description = "out going traffic from appmesh services. by default only vpc cidr is set"
     protocol    = "-1"
     from_port   = 0
     to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = length(var.egress_cidr_blocks) != 0 ? var.egress_cidr_blocks : var.vpc.default_vpc_cidr_block
   }
 
   // add tags

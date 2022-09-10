@@ -1,6 +1,6 @@
 /*
 Module: ECS-Fargate-APPMESH
-Version: 1.2.7
+Version: 2.0.0
 
 This file defines all the variables for this module.
 Variables are divided into two sections:
@@ -45,11 +45,36 @@ variable "cw_dashboard" {
   default     = "none"
 }
 
+variable "container_insights" {
+  type          = bool
+  description   = "enable or disable container insights"
+  default       = true
+}
+
+variable "egress_cidr_blocks" {
+  type        = list(string)
+  description = "cidr for out going traffic from appmesh services. By-default vpc cidr is set"
+  default     = []
+}
+
 // vpc variables
 variable "vpc" {
   description = "vpc id to create resources"
 }
 
+
+// encryption keys vars
+variable "ecr_kms_key_arn" {
+  type        = string
+  description = "provide ecr kms key for customer encryption"
+  default     = "" // by default it will use aws default keys
+}
+
+variable "cloudwatch_kms_key_arn" {
+  type        = string
+  description = "provide cloud watch kms key for customer encryption"
+  default     = "" // by default it will use aws default keys
+}
 
 // -------------General(optional)---------------
 variable "prefix" {
@@ -100,22 +125,23 @@ variable "parameters" {
 }
 
 // appmesh variables
-variable "aws_appmesh_virtual_node" {
+variable "aws_appmesh_virtual_node_arn" {
   type = string
-  description = "set appmesh virtual node"
+  description = "set appmesh virtual node arn"
   default = "none"
 }
 
-variable "virtual_gateway" {
+variable "virtual_gateway_arn" {
   type = string
-  description = "set appmesh virtual gateway"
+  description = "set appmesh virtual gateway arn"
   default = "none"
 }
+
 
 variable "envoy_proxy_image" {
   type        = string
   description = "app mesh image for all regions except me-south-1 and ap-east-1"
-  default     = "840364872350.dkr.ecr.us-east-1.amazonaws.com/aws-appmesh-envoy:v1.22.0.0-prod"
+  default     = "840364872350.dkr.ecr.us-east-1.amazonaws.com/aws-appmesh-envoy:v1.22.2.1-prod"
 }
 
 // load balancer variables

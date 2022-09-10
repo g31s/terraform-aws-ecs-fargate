@@ -1,6 +1,6 @@
 /*
 Module: ECS-Fargate-Appmesh
-Version: 1.2.7
+Version: 2.0.0
 
 This file will create:
   - IAM policy: to allow ecs tasks to assume role

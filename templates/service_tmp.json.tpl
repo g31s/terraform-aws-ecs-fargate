@@ -48,8 +48,8 @@
     "memoryReservation": 256,
     "environment": [
       {
-        "name": "APPMESH_VIRTUAL_NODE_NAME",
-        "value": "mesh/${mesh_name}/virtualNode/${virtual_node_name}"
+        "name": "APPMESH_RESOURCE_ARN",
+        "value": "${virtual_node_arn}"
       },
       { "name" : "AWS_XRAY_DAEMON_ADDRESS", "value" : "xray-daemon:2000" }
     ],  

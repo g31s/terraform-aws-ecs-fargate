@@ -1,6 +1,6 @@
  /*
 Module: ECS-Fargate-Appmesh
-Version: 1.0.0
+Version: 2.0.0
 
 This file will create following:
   - elastic load balancer
@@ -77,8 +77,8 @@ resource "aws_lb_listener" "front_end_https" {
   // set port
   port                = 443
   // set protocol
-  protocol            = "TLS"
-  ssl_policy          = "ELBSecurityPolicy-2016-08"
+  ssl_policy = "ELBSecurityPolicy-TLS-1-2-2017-01"
+  protocol = "HTTPS"
   // set the certificate defined in variable
   certificate_arn     = var.certificate_arn
   // set the default action

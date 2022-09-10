@@ -1,6 +1,6 @@
 /* 
 Module: ECS-Fargate-Appmesh
-Version: 1.0.0
+Version: 2.0.0
 
 This file will create following:
   - aws ecs fargate cluster
@@ -16,6 +16,12 @@ locals {
 resource "aws_ecs_cluster" "main" {
   // set name for ecs cluster
   name = "${var.prefix}-${var.env}-${var.app_name}-cluster"
+
+  // enable container insights
+  setting {
+    name  = "containerInsights"
+    value = var.container_insights ? "enabled" : "disabled"
+  }
   // set tags for cluster
   tags = var.tags
 }
@@ -57,21 +63,21 @@ data "template_file" "service_tmp" {
   // variables for template
   vars      = { 
     // set container image provided by user or ecr url
-    app_image         = var.app_image == "none" ? (var.virtual_gateway != "none" ? "" : aws_ecr_repository.ecr_repo[0].repository_url) : var.app_image
-    extra_ports       = join("", data.template_file.portmapping.*.rendered)
-    app_port          = var.app_port
-    fargate_cpu       = var.fargate_cpu
-    fargate_memory    = var.fargate_memory
-    aws_region        = var.region
-    prefix            = var.prefix
-    app_name          = var.app_name
-    env               = var.env
-    envoy_proxy_image = var.envoy_proxy_image
-    mesh_name         = var.appmesh.name
-    virtual_gateway   = var.virtual_gateway
-    virtual_node_name = var.aws_appmesh_virtual_node
-    secrets           = join(",", data.template_file.env_tmp.*.rendered)
-    xray              = var.xray ? data.template_file.xray.rendered : ""
+    app_image           = var.app_image == "none" ? (var.virtual_gateway != "none" ? "" : aws_ecr_repository.ecr_repo[0].repository_url) : var.app_image
+    extra_ports         = join("", data.template_file.portmapping.*.rendered)
+    app_port            = var.app_port
+    fargate_cpu         = var.fargate_cpu
+    fargate_memory      = var.fargate_memory
+    aws_region          = var.region
+    prefix              = var.prefix
+    app_name            = var.app_name
+    env                 = var.env
+    envoy_proxy_image   = var.envoy_proxy_image
+    mesh_name           = var.appmesh.name
+    virtual_gateway_arn = var.virtual_gateway_arn
+    virtual_node_arn    = var.aws_appmesh_virtual_node_arn
+    secrets             = join(",", data.template_file.env_tmp.*.rendered)
+    xray                = var.xray ? data.template_file.xray.rendered : ""
   }
 }
 

@@ -17,6 +17,10 @@ The module is developed to quickly implement fargate cluster for appmesh microse
 - SSL cert on LB
 - Cloudwatch Dashboard
 
+
+## Security Recommendations
+We suggest that you provide KMS keys for ECR and Cloudwatch encryption.
+
 ## Example
 Following example creates fargate cluster for appmesh service
 ```
@@ -37,28 +41,32 @@ module "test" {
 More examples: [Examples](./examples/)
 
 ## Input Variables
-|   Variable  	              |    Required		| 	 Default	| 	   Type	 	|	   Info	 	|    Example    |
+|   Variable  	              |    Required		  | 	 Default	| 	   Type	 	|	   Info	 	|    Example    |
 | -------------               | ------------- 	| ------------- | ------------- | ------------- | ------------- |
-| vpc 		              	  | 	    Y 		| 	    -	 	|	  object 	| 	    -	 	|	module.vpc from terraform vpc module will be one example |
-| region 	              	  | 	    Y 		| 	    -	 	|	  string 	| 	    -	 	|	"us-east-1" |
-| env 		              	  | 	    Y 		| 	    -	 	|	  string 	| 	    -	 	|	"dev" |
-| app_name 	                  | 	    Y 		| 	    -	 	|	  string 	| 	    -	 	|	"test" |
+| vpc 		              	    | 	    Y 		    | 	    -	 	     |	  object 	  | 	    -	 	|	module.vpc from terraform vpc module will be one example |
+| region 	              	    | 	    Y 	     	| 	    -	        	|	  string 	| 	    -	 	|	"us-east-1" |
+| env 		              	    | 	    Y 		    | 	    -	 	|	  string 	| 	    -	 	|	"dev" |
+| app_name 	                  | 	    Y 		     | 	    -	 	|	  string 	| 	    -	 	|	"test" |
 | app_port 	              	  | 	    Y 		| 	    -	 	|	  string 	| 	    -	 	|	"80" |
 | appmesh 	              	  | 	    Y 		| 	    -	 	|	  object 	| 	    -	 	|	aws_appmesh_mesh.main |
 | cloudmap_service            | 	   	Y 		| 	    -	 	|	  object 	| 	    -	 	|	aws_service_discovery_private_dns_namespace.main |
 | fargate_cpu                 | 	   	N 		| 	  "1024"	|	  string 	| 	    -	 	|	"2048" |              
 | fargate_memory              | 	   	N 		| 	  "2048"	|	  string 	| 	    -	 	|	"4096" |              
-| prefix 		              | 	    N 		| 	  "EFA"	 	|	  string 	| 	    -	 	|	"AGT" |
-| app_image 	              | 	    N 		| 	  "none"	|	  string 	| Default will create ECR	 	|	"nginx:1.13.9-alpine" |
+| prefix 		                  | 	    N 		| 	  "EFA"	 	|	  string 	| 	    -	 	|	"AGT" |
+| app_image 	                | 	    N 		| 	  "none"	|	  string 	| Default will create ECR	 	|	"nginx:1.13.9-alpine" |
+| engress_cidr_blocks         |       N     |    vpc.default.cidr_block     | list(string) | egress cidr blocks allowed for app mesh services | ["1.2.3.4/0"] |
+| container_insights          |       N     |   true    | bool       | enable container insights for ecs clusters |  false |
 | min_app_count               | 	   	N 		| 	    1	 	|	  number 	| 	    -	 	|	1 |
 | max_app_count               |       N     |      10   |   number  |       -   | 100 |
+| ecr_kms_key_arn             |       N     |      ""   |   string  | KMS keys used to encrypt ECR images | aws_kms_key.ecr_kms.key_id |
+| cloudwatch_kms_key_arn      |       N     |      ""   |   string  | KMS keys used to encrypt cloudwatch logs | aws_kms_key.cloudwatch_log_kms.arn | 
 | extra_ports 	              | 	   	N 		| 	    []	 	|  list(string)	| Open extra port in task definition	 	|	["443","542"] |
 | secrets 	              	  | 	   	N 		| 	    []	 	|  list(object) | Will add IAM permissions and secrets to task definition |	[aws_secretsmanager_secret.main.usernamer,aws_secretsmanager_secret.main.password]|
 | parameters                  |       N     |       []    | list(object)  | Will add IAM permissions and parameters to task defintion as env variables | [aws_ssm_parameter.main.configs] |
 | policy_arn_attachments      |     N       |       []    | list(string)   | can provide addition policies arns to be attached to ecs roles | [arn:aws:iam::aws:policy/service-role/AWSLambdaDynamoDBExecutionRole] |
-| aws_appmesh_virtual_node 	  | 	   	N 		| 	  "none"	|	  string 	| virtual node or virtual gateway must be present|aws_appmesh_virtual_node.main.name |
-| virtual_gateway             | 	   	N 		| 	  "none"	|	  string 	| virtual node or virtual gateway must be present|"test_virtual_gateway" |
-| envoy_proxy_image           | 	   	N 		|"840364872350.dkr.ecr.us-east-1.amazonaws.com/aws-appmesh-envoy:v1.22.0.0-prod"|string|work for all regions except: me-south-1, ap-east-1, and eu-south-1  |me-south-1 : "772975370895.dkr.ecr.me-south-1.amazonaws.com/aws-appmesh-envoy:v1.22.0.0-prod" |
+| aws_appmesh_virtual_node_arn 	  | 	   	N 		| 	  "none"	|	  string 	| virtual node or virtual gateway must be present|aws_appmesh_virtual_node.main.arn |
+| virtual_gateway_arn             | 	   	N 		| 	  "none"	|	  string 	| virtual node or virtual gateway must be present| aws_appmesh_virtual_gateway.main.arn |
+| envoy_proxy_image           | 	   	N 		|"840364872350.dkr.ecr.us-east-1.amazonaws.com/aws-appmesh-envoy:v1.22.2.1-prod"|string|work for all regions except: me-south-1, ap-east-1, and eu-south-1  |me-south-1 : "772975370895.dkr.ecr.me-south-1.amazonaws.com/aws-appmesh-envoy:v1.22.0.0-prod" |
 | certificate                 | 	   	N 		| 	  false 	|	  bool 	| make sure to set this to true if providing certificate arn |	true |
 | certificate_arn             |       N     |     "none"  |   string  |set certificate on LB| aws_acm_certificate.privateCA.arn |
 | nlb_stickiness              | 	   	N 		| 	   false	|	  bool 		|enable stickiness for network load balancer|	true |

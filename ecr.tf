@@ -1,6 +1,6 @@
 /* 
 Module: ECS-Fargate-Appmesh
-Version: 1.0.0
+Version: 2.0.0
 
 This file will create following:
   - elastic container registry to store app docker image
@@ -12,13 +12,22 @@ resource "aws_ecr_repository" "ecr_repo" {
   count = (var.app_image != "none" || var.virtual_gateway != "none") ? 0 : 1
   // name can be in lower case only
   name                 = lower("${var.prefix}-${var.env}-${var.app_name}")
-  image_tag_mutability = "MUTABLE"
+  image_tag_mutability = "IMMUTABLE"
 
   // scan image configuration
   image_scanning_configuration {
     scan_on_push = true
   }
-  
+
+  dynamic "encryption_configuration" {
+    for_each = [var.ecr_kms_key_arn]
+    content {
+      encryption_type = "KMS"
+      kms_key = encryption_configuration.value
+    }
+
+  }
+
   // add tags
   tags = var.tags
 }

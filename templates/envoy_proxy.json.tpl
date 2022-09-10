@@ -8,8 +8,8 @@
     "memory": ${fargate_memory},
     "environment": [
       {
-        "name": "APPMESH_VIRTUAL_NODE_NAME",
-        "value": "mesh/${mesh_name}/virtualGateway/${virtual_gateway}"
+        "name": "APPMESH_RESOURCE_ARN",
+        "value": "${virtual_gateway_arn}"
       },
       { "name" : "AWS_XRAY_DAEMON_ADDRESS", "value" : "xray-daemon:2000" }
     ],
