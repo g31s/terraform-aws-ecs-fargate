@@ -23,9 +23,12 @@ resource "aws_lb" "main" {
   enable_cross_zone_load_balancing = var.enable_cross_zone_load_balancing
 
   // access logs
-  access_logs {
-    bucket  = var.lb_access_logs_s3_bucket 
-    enabled = var.lb_access_logs
+  dynamic "access_logs" {
+    for_each = [var.lb_access_logs_s3_bucket]
+    content {
+      bucket  = var.lb_access_logs_s3_bucket 
+      enabled = var.lb_access_logs
+    }
   }
 
   // add tags

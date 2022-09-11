@@ -25,7 +25,6 @@ resource "aws_ecr_repository" "ecr_repo" {
       encryption_type = "KMS"
       kms_key         = encryption_configuration.value
     }
-
   }
 
   // add tags
