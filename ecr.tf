@@ -34,7 +34,7 @@ resource "aws_ecr_repository" "ecr_repo" {
 
 // add policy to ecr
 resource "aws_ecr_repository_policy" "ecr_repo_policy" {
-  repository = aws_ecr_repository.ecr_repo.name
+  repository = aws_ecr_repository.ecr_repo[0].name
   policy     = <<EOF
   {
     "Version": "2008-10-17",
