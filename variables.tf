@@ -76,6 +76,19 @@ variable "cloudwatch_kms_key_arn" {
   default     = "" // by default it will use aws default keys
 }
 
+// lb vars
+variable "lb_access_logs_s3_bucket" {
+  type        = string
+  description = "s3 name to store lb vars"
+  default     = ""
+}
+
+variable "lb_access_logs" {
+  type        = bool
+  description = "enable access logs for lb"
+  default     = false
+}
+
 // -------------General(optional)---------------
 variable "prefix" {
   type        = string

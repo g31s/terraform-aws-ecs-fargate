@@ -19,6 +19,15 @@ resource "aws_lb" "main" {
   // type of load balancer
   load_balancer_type = "network"
 
+  // enable_cross_zone_load_balancing default fase
+  enable_cross_zone_load_balancing = var.enable_cross_zone_load_balancing
+
+  // access logs
+  access_logs {
+    bucket  = var.lb_access_logs_s3_bucket 
+    enabled = var.lb_access_logs
+  }
+
   // add tags
   tags = var.tags
 }
