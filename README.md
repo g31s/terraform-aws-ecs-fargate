@@ -61,7 +61,7 @@ More examples: [Examples](./examples/)
 | ecr_kms_key_arn             |       N     |      ""   |   string  | KMS keys used to encrypt ECR images | aws_kms_key.ecr_kms.key_id |
 | cloudwatch_kms_key_arn      |       N     |      ""   |   string  | KMS keys used to encrypt cloudwatch logs | aws_kms_key.cloudwatch_log_kms.arn | 
 | extra_ports 	              | 	   	N 		| 	    []	 	|  list(string)	| Open extra port in task definition	 	|	["443","542"] |
-| lb_access_logs              |       N     |       false    |  bool | Enable access logs on lb    | true |
+| enable_cross_zone_load_balancing  |       N     |       false    |  bool | Enable cross zone load balancing for lb    | true |
 | lb_access_logs_s3_bucket    |       N     |       ""    |  string | lb_access_log must be enable to provide s3 bucket name to store lb access logs    | lb-access-log-bucket |
 | secrets 	              	  | 	   	N 		| 	    []	 	|  list(object) | Will add IAM permissions and secrets to task definition |	[aws_secretsmanager_secret.main.usernamer,aws_secretsmanager_secret.main.password]|
 | parameters                  |       N     |       []    | list(object)  | Will add IAM permissions and parameters to task defintion as env variables | [aws_ssm_parameter.main.configs] |

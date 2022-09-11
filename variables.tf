@@ -89,6 +89,12 @@ variable "lb_access_logs" {
   default     = false
 }
 
+variable "enable_cross_zone_load_balancing" {
+  type        =  bool
+  description = "enable cross zone load balancing for lb"
+  default     = false
+}
+
 // -------------General(optional)---------------
 variable "prefix" {
   type        = string

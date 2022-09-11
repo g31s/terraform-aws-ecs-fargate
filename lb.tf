@@ -27,7 +27,7 @@ resource "aws_lb" "main" {
     for_each = [var.lb_access_logs_s3_bucket]
     content {
       bucket  = var.lb_access_logs_s3_bucket 
-      enabled = var.lb_access_logs
+      enabled = var.lb_access_logs_s3_bucket != "" ? true : false
     }
   }
 
