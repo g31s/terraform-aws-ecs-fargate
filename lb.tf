@@ -78,7 +78,7 @@ resource "aws_lb_listener" "front_end_https" {
   port = 443
   // set protocol
   ssl_policy = "ELBSecurityPolicy-TLS-1-2-2017-01"
-  protocol   = "HTTPS"
+  protocol   = "TCP"
   // set the certificate defined in variable
   certificate_arn = var.certificate_arn
   // set the default action
