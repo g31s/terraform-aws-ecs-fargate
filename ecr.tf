@@ -30,33 +30,3 @@ resource "aws_ecr_repository" "ecr_repo" {
   // add tags
   tags = var.tags
 }
-
-// add policy to ecr
-resource "aws_ecr_repository_policy" "ecr_repo_policy" {
-  // run only if app image is not provided and don't if virtual gateway is provided
-  count = (var.app_image != "none" || var.virtual_gateway_arn != "none") ? 0 : 1
-
-  repository = aws_ecr_repository.ecr_repo[count.index].name
-  policy     = <<EOF
-  {
-    "Version": "2008-10-17",
-    "Statement": [
-      {
-        "Sid": "adds full ecr access to the demo repository",
-        "Effect": "Allow",
-        "Principal": "*",
-        "Action": [
-          "ecr:BatchCheckLayerAvailability",
-          "ecr:BatchGetImage",
-          "ecr:CompleteLayerUpload",
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:GetLifecyclePolicy",
-          "ecr:InitiateLayerUpload",
-          "ecr:PutImage",
-          "ecr:UploadLayerPart"
-        ]
-      }
-    ]
-  }
-  EOF
-}
