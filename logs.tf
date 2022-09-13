@@ -14,8 +14,8 @@ resource "aws_cloudwatch_log_group" "fargate_service_log_group" {
   // retain logs for 90 days
   retention_in_days = 90
 
-  // logs enc key
-  kms_key_id = var.cloudwatch_kms_key_arn != "" ? var.cloudwatch_kms_key_arn : ""
+  // logs enc key. it is upto user provide those keys.
+  kms_key_id = var.cloudwatch_kms_key_arn != "" ? var.cloudwatch_kms_key_arn : "" #tfsec:ignore:aws-cloudwatch-log-group-customer-key
 
   // add tags
   tags = var.tags

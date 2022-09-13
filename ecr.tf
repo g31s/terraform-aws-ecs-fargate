@@ -23,8 +23,9 @@ resource "aws_ecr_repository" "ecr_repo" {
     for_each = [var.ecr_kms_key_arn]
     content {
       encryption_type = "KMS"
-      kms_key         = encryption_configuration.value
-    }
+      // it is upto user to provide the kms keys
+      kms_key         = encryption_configuration.value #tfsec:ignore:aws-ecr-repository-customer-key
+    } 
   }
 
   // add tags

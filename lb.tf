@@ -10,6 +10,8 @@ This file will create following:
 
 // add application load balancer
 resource "aws_lb" "main" {
+  // lb is public to provide access to service
+  #tfsec:ignore:aws-elb-alb-not-public
   // create lb if virtual_gateway is enabled
   count = var.virtual_gateway_arn == "none" ? 0 : 1
   // name for lb

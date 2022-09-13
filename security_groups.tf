@@ -24,14 +24,13 @@ resource "aws_security_group" "ecs_tasks" {
     cidr_blocks = var.virtual_gateway_arn == "none" ? var.vpc.private_subnets_cidr_blocks : var.vpc.public_subnets_cidr_blocks
   }
 
-  // fargate containers can access anything over the Internet. 
-  // this is not the best idea because of SSRF attacks.
   egress {
     description = "out going traffic from appmesh services. by default only vpc cidr is set"
     protocol    = "-1"
     from_port   = 0
     to_port     = 0
-    cidr_blocks = length(var.egress_cidr_blocks) != 0 ? var.egress_cidr_blocks : [var.vpc.vpc_cidr_block]
+    # false positive tfsec alert
+    cidr_blocks = length(var.egress_cidr_blocks) != 0 ? var.egress_cidr_blocks : [var.vpc.vpc_cidr_block]  #tfsec:ignore:aws-ec2-no-public-egress-sgr
   }
 
   // add tags
