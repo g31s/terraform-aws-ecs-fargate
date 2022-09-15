@@ -57,6 +57,12 @@ variable "egress_cidr_blocks" {
   default     = []
 }
 
+variable "log_retention_in_days" {
+  type        = number
+  description = "log retention logs in days"
+  default     = 90
+}
+
 // vpc variables
 variable "vpc" {
   description = "vpc id to create resources"

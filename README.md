@@ -58,6 +58,7 @@ More examples: [Examples](./examples/)
 | container_insights          |       N     |   true    | bool       | enable container insights for ecs clusters |  false |
 | min_app_count               | 	   	N 		| 	    1	 	|	  number 	| 	    -	 	|	1 |
 | max_app_count               |       N     |      10   |   number  |       -   | 100 |
+| log_retention_in_days       |       N     |      90   |   number  |       log retention in days   | 14 |
 | ecr_kms_key_arn             |       N     |      ""   |   string  | KMS keys used to encrypt ECR images | aws_kms_key.ecr_kms.key_id |
 | cloudwatch_kms_key_arn      |       N     |      ""   |   string  | KMS keys used to encrypt cloudwatch logs | aws_kms_key.cloudwatch_log_kms.arn | 
 | extra_ports 	              | 	   	N 		| 	    []	 	|  list(string)	| Open extra port in task definition	 	|	["443","542"] |
