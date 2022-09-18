@@ -89,12 +89,6 @@ variable "lb_access_logs_s3_bucket" {
   default     = ""
 }
 
-variable "lb_access_logs" {
-  type        = bool
-  description = "enable access logs for lb"
-  default     = false
-}
-
 variable "enable_cross_zone_load_balancing" {
   type        =  bool
   description = "enable cross zone load balancing for lb"

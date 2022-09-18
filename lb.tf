@@ -28,7 +28,8 @@ resource "aws_lb" "main" {
   dynamic "access_logs" {
     for_each = [var.lb_access_logs_s3_bucket]
     content {
-      bucket  = var.lb_access_logs_s3_bucket 
+      bucket  = var.lb_access_logs_s3_bucket
+      prefix  = "logs-${var.env}-${var.app_name}-lb"
       enabled = var.lb_access_logs_s3_bucket != "" ? true : false
     }
   }
