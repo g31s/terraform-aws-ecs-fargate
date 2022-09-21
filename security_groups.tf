@@ -33,7 +33,7 @@ resource "aws_security_group" "ecs_tasks" {
     cidr_blocks = length(var.egress_cidr_blocks) != 0 ? var.egress_cidr_blocks : [var.vpc.vpc_cidr_block]  #tfsec:ignore:aws-ec2-no-public-egress-sgr
   }
 
-  dynamic "egress" { #tfsec:ignore:aws-ec2-no-public-egress-sgr aws-ec2-add-description-to-security-group-rule
+  dynamic "egress" { #tfsec:ignore:aws-ec2-no-public-egress-sgr
     for_each = [length(var.sg_prefixs)]
     content {
       description     = "out going traffic from appmesh services. to vpc endpoint prefixs"
@@ -42,10 +42,6 @@ resource "aws_security_group" "ecs_tasks" {
       protocol        = "-1"
       prefix_list_ids = var.sg_prefixs
     }
-  }
-
-  egress {
-    
   }
 
   // add tags
