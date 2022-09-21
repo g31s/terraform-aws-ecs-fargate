@@ -68,6 +68,12 @@ variable "vpc" {
   description = "vpc id to create resources"
 }
 
+variable "sg_prefixs" {
+  type        = list(string)
+  description = "vpc endpoint prefixs to be added to sg"
+  default     = []
+}
+
 
 // encryption keys vars
 variable "ecr_kms_key_arn" {

@@ -56,6 +56,7 @@ More examples: [Examples](./examples/)
 | app_image 	                | 	    N 		| 	  "none"	|	  string 	| Default will create ECR	 	|	"nginx:1.13.9-alpine" |
 | engress_cidr_blocks         |       N     |    vpc.default.cidr_block     | list(string) | egress cidr blocks allowed for app mesh services | ["1.2.3.4/0"] |
 | container_insights          |       N     |   true    | bool       | enable container insights for ecs clusters |  false |
+| sg_prefixs                 |       N     |       []    |  list(string) | vpc endpoint prefixs to be added to sg    | ["com.amazonaws.us-east-1.s3"] |
 | min_app_count               | 	   	N 		| 	    1	 	|	  number 	| 	    -	 	|	1 |
 | max_app_count               |       N     |      10   |   number  |       -   | 100 |
 | log_retention_in_days       |       N     |      90   |   number  |       log retention in days   | 14 |
