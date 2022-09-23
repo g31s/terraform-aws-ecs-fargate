@@ -124,5 +124,5 @@ resource "aws_iam_role_policy_attachment" "module-provided-policies" {
 resource "aws_iam_role_policy_attachment" "appmesh-ecr-policy" {
   count = (var.app_image != "none" || var.virtual_gateway_arn != "none") ? 0 : 1
   role       = aws_iam_role.ecs_task_execution_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AWSAppMeshEnvoyAccess"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess"
 }
