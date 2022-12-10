@@ -96,8 +96,9 @@ resource "aws_iam_policy" "parameters_policy" {
     Statement = [
       {
         Action = [
-          "ssm:GetParameters",
-          "ssm:DescribeParameters",
+          "ssm:Describe*",
+          "ssm:Get*",
+          "ssm:List*"
         ]
         Effect   = "Allow"
         Resource = var.parameters.*.arn

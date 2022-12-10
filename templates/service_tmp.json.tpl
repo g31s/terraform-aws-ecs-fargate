@@ -38,7 +38,13 @@
       { "name" : "AWS_XRAY_DAEMON_ADDRESS", "value" : "xray-daemon:2000" },
       { "name" : "ENV", "value" : "${env}" }
     ],
-    "secrets": [${secrets}]
+    "secrets": [${secrets}],
+    "runtimePlatform": {
+        "operatingSystemFamily": "LINUX"
+    },
+    "requiresCompatibilities": [ 
+       "FARGATE" 
+    ]
   },
   {
     "name": "envoy",
@@ -76,7 +82,7 @@
       "options": {
         "awslogs-group": "/ecs/${prefix}-${env}-${app_name}",
         "awslogs-region": "${aws_region}",
-        "awslogs-stream-prefix": "envoy${app_name}"
+        "awslogs-stream-prefix": "ecs-envoy-${app_name}"
       }
     },
     "ulimits": [
