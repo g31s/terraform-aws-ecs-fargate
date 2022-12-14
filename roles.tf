@@ -118,7 +118,7 @@ resource "aws_iam_role_policy_attachment" "ps-policy-attach" {
 resource "aws_iam_role_policy_attachment" "module-provided-policies" {
   count      = length(var.policy_arn_attachments) == 0 ? 0 : length(var.policy_arn_attachments)
   role       = aws_iam_role.ecs_task_execution_role.name
-  policy_arn = count.index
+  policy_arn = var.policy_arn_attachments[count.index]
 }
 
 // attach ecr policy if ecr is created
