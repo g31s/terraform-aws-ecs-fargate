@@ -30,8 +30,8 @@ resource "aws_security_group" "ecs_tasks" {
     content {
       description = "enable incomming traffic to ecs fargate services. Other than virtual gateway only private subnets allowed"
       protocol    = "tcp"
-      from_port   = each.value
-      to_port     = each.value
+      from_port   = each.key
+      to_port     = each.key
       cidr_blocks = var.virtual_gateway_arn == "none" ? var.vpc.private_subnets_cidr_blocks : var.vpc.public_subnets_cidr_blocks
     }
   }
