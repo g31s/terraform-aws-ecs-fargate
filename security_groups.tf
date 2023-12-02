@@ -24,6 +24,18 @@ resource "aws_security_group" "ecs_tasks" {
     cidr_blocks = var.virtual_gateway_arn == "none" ? var.vpc.private_subnets_cidr_blocks : var.vpc.public_subnets_cidr_blocks
   }
 
+
+  dynamic "ingress" {
+    for_each = toset(var.extra_ports)
+    content {
+      description = "enable incomming traffic to ecs fargate services. Other than virtual gateway only private subnets allowed"
+      protocol    = "tcp"
+      from_port   = each.value
+      to_port     = each.value
+      cidr_blocks = var.virtual_gateway_arn == "none" ? var.vpc.private_subnets_cidr_blocks : var.vpc.public_subnets_cidr_blocks
+    }
+  }
+
   egress {
     description = "out going traffic from appmesh services. by default only vpc cidr is set"
     protocol    = "-1"
